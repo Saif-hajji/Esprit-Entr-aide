@@ -1,0 +1,105 @@
+{% extends '::layout_globale.html.twig' %}
+
+{% block afficheannonce %}
+    <div class="container" id="affichage" style="height: auto ; width: auto">
+        <h1>Mes Annonces</h1>
+
+
+        <header class="agileits-box-header clearfix">
+
+
+            <form class="navbar-form navbar-right hidden-sm">
+                <div class="form-group">
+                    <i class="icon ion-android-search"></i>
+                    <input style="background-color: #bd2130 ;color: white" type="text" class="form-control"
+                           placeholder="Rechercher......" id="cle" onkeyup="chercherCle()">
+                </div>
+            </form>
+
+
+        </header>
+
+
+        <body>
+
+        <div id="chercherCle">
+            <table class="table" border="2" style="color:#DCDCDC !important;">
+
+                <tr>
+
+
+                    <td>Lieu de départ</td>
+
+                    <td>Lieu d'arrivée</td>
+
+                    <td>Nombre de places</td>
+
+                    <td>Description</td>
+
+                    <td>Prix</td>
+
+                    <td>Date de départ</td>
+
+                    <td>Heure de dpart</td>
+
+                    <td> Actions</td>
+                </tr>
+
+                {% for covoiturage in covoiturages %}
+                    <tr>
+
+                        <td>{{ covoiturage.depart }}</td>
+                        <td>{{ covoiturage.arrivee }}</td>
+                        <td>{{ covoiturage.nombreDeplaces }}</td>
+                        <td>{{ covoiturage.description }}</td>
+                        <td>{{ covoiturage.prix }}</td>
+                        <td>{% if covoiturage.dateDepart %}{{ covoiturage.dateDepart|date('Y-m-d') }}{% endif %}</td>
+                        <td>{{ covoiturage.heureDepart }}</td>
+
+                        <td><a href="{{ path('covoiturage_edit', { 'id': covoiturage.idCov }) }}">
+                                <button type='button' class='btn btn-warning btn-sm'><span
+                                            class='glyphicon glyphicon-edit' aria-hidden='true'></span></button>
+                            </a>
+
+                            <a href="{{ path('covoiturage_delete', { 'id': covoiturage.idCov }) }}">
+                                <button type='button' class='btn btn-danger btn-sm'><span
+                                            class='glyphicon glyphicon-trash' aria-hidden='true'></span></button>
+                            </a>
+
+                            <a href="{{ path('covoiturage_show_reservation', { 'idCov': covoiturage.idCov }) }}">
+                                <button type='button' class='btn btn-success btn-sm'><span
+                                            class='glyphicon glyphicon-info-sign' aria-hidden='true'></span></button>
+                            </a></td>
+
+
+                    </tr>
+
+                {% endfor %}
+
+
+            </table>
+            <div class="navigation" style="text-align: center">
+                {{ knp_pagination_render(covoiturages) }}
+            </div>
+        </div>
+
+        </body>
+
+    </div>
+
+    <script>
+        function chercherCle() {
+            var x = document.getElementById("cle").value;
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "search?cle=" + x, true);
+            xhr.send(null);
+            xhr.onreadystatechange = function result() {
+                if ((xhr.status == 200) && (xhr.readyState == 4))
+                    document.getElementById("chercherCle").innerHTML = xhr.responseText;
+            }
+        }
+
+    </script>
+
+
+{% endblock %}

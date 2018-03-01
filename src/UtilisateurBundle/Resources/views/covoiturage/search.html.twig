@@ -1,0 +1,57 @@
+<div id="chercherCle">
+    <table border="2" class="table" style="color:#DCDCDC !important;">
+
+        <tr>
+
+
+            <td>Lieu de départ</td>
+
+            <td>Lieu d'arrivée</td>
+
+            <td>Nombre de places</td>
+
+            <td>Description</td>
+
+            <td>Prix</td>
+
+            <td>Date de départ</td>
+
+            <td>Heure de départ</td>
+            <td>Actions</td>
+        </tr>
+
+        {% for covoiturage in covoiturages %}
+            <tr>
+
+                <td>{{ covoiturage.depart }}</td>
+                <td>{{ covoiturage.arrivee }}</td>
+                <td>{{ covoiturage.nombreDeplaces }}</td>
+                <td>{{ covoiturage.description }}</td>
+                <td>{{ covoiturage.prix }}</td>
+                <td>{% if covoiturage.dateDepart %}{{ covoiturage.dateDepart|date('Y-m-d') }}{% endif %}</td>
+                <td>{{ covoiturage.heureDepart }} h</td>
+                <td><a href="{{ path('covoiturage_edit', { 'id': covoiturage.idCov }) }}">
+                        <button type='button' class='btn btn-warning btn-sm'><span class='glyphicon glyphicon-edit'
+                                                                                   aria-hidden='true'></span></button>
+                    </a>
+
+                    <a href="{{ path('covoiturage_delete', { 'id': covoiturage.idCov }) }}">
+                        <button type='button' class='btn btn-danger btn-sm'><span class='glyphicon glyphicon-trash'
+                                                                                  aria-hidden='true'></span></button>
+                    </a>
+
+                    <a href="{{ path('covoiturage_show_reservation', { 'idCov': covoiturage.idCov }) }}">
+                        <button type='button' class='btn btn-success btn-sm'><span class='glyphicon glyphicon-info-sign'
+                                                                                   aria-hidden='true'></span></button>
+                    </a></td>
+
+            </tr>
+
+        {% endfor %}
+
+
+    </table>
+    <div class="navigation" style="text-align: center">
+        {{ knp_pagination_render(covoiturages) }}
+    </div>
+</div>

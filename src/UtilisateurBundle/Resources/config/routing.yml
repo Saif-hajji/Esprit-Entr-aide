@@ -1,0 +1,60 @@
+utilisateur_homepage:
+    path:     /home
+    defaults: { _controller: UtilisateurBundle:Default:index }
+redirect_admin:
+    path:     /admin
+    defaults: { _controller: UtilisateurBundle:Redirect:redirect_admin }
+redirect_etudiant:
+    path:     /etudiant
+    defaults: { _controller: UtilisateurBundle:Redirect:redirect_etudiant }
+covoiturage_index:
+    path:     /covoiturage
+    defaults: { _controller: UtilisateurBundle:Covoiturage:index }
+    methods:  GET
+covoiturage_new:
+    path:     /new
+    defaults: { _controller: UtilisateurBundle:Covoiturage:new }
+    methods:  [GET, POST]
+covoiturage_show:
+    path:     /show
+    defaults: { _controller: UtilisateurBundle:Covoiturage:show }
+    methods:  [GET, POST]
+covoiturage_showmine:
+    path:     /showmine
+    defaults: { _controller: UtilisateurBundle:Covoiturage:showmine }
+    methods:  [GET, POST]
+covoiturage_edit:
+    path:     /{id}/edit
+    defaults: { _controller: UtilisateurBundle:Covoiturage:edit }
+    methods:  [GET, POST]
+covoiturage_delete:
+    path:     /{id}/delete
+    defaults: { _controller: UtilisateurBundle:Covoiturage:delete }
+covoiturage_search:
+    path:     /search
+    defaults: { _controller: UtilisateurBundle:Covoiturage:search }
+covoiturage_searchAll:
+    path:     /searchAll
+    defaults: { _controller: UtilisateurBundle:Covoiturage:search }
+covoiturage_reserv:
+    path:     /reserver
+    defaults: { _controller: UtilisateurBundle:Covoiturage:reserverCovoiturage }
+covoiturage_show_reservation:
+    path:     /showreservation
+    defaults: { _controller: UtilisateurBundle:Covoiturage:afficherResCovoiturage }
+covoiturage_delete_reservation:
+    path:     /deletereservation
+    defaults: { _controller: UtilisateurBundle:Covoiturage:suppRes }
+    methods:  [GET, POST]
+covoiturage_confirm_reservation:
+    path:     /confirmreservation
+    defaults: { _controller: UtilisateurBundle:Covoiturage:confirmReservation }
+    methods:  [GET, POST]
+#mail
+my_app_mail_homepage:
+    path:     /contacter
+    defaults: { _controller: UtilisateurBundle:Mail:contacter }
+
+my_app_mail_accuse:
+    path:     /success
+    defaults: { _controller: UtilisateurBundle:Mail:success }

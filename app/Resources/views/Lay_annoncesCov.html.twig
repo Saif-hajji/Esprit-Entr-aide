@@ -1,0 +1,86 @@
+{% extends '::layout_globale.html.twig' %}
+
+
+{% block ajoutannonce %}
+
+    <div class="container">
+        <!-- Trigger the modal with a button -->
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Ajouter une
+            annonce
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <center><h4 class="modal-title" style="color: #d32f2f">Ajouter une annonce</h4></center>
+                    </div>
+                    <div class="modal-body">
+                        <div class="panel-body">
+                            <div class="form">
+                                <form class="cmxform form-horizontal " id="signupForm" method="POST">
+
+                                    <label>Départ</label>
+                                    <br>
+                                    <input style="width: 100%" type="text" name="depart" required="">
+                                    <br>
+
+                                    <br>
+                                    <label>Arrivée</label>
+                                    <br>
+                                    <input style="width: 100%" type="text" name="arrivee" required="">
+                                    <br>
+
+                                    <br>
+                                    <label>Date de départ</label>
+                                    <br>
+                                    <input style="width: 100%" type="date" name="dateDepart" required="">
+                                    <br>
+
+                                    <br>
+
+                                    <label>Heure de départ</label>
+                                    <br>
+                                    <input style="width: 100%" type="text" name="heureDepart" required="">
+                                    <br>
+                                    <br>
+                                    <label>Prix</label>
+                                    <br>
+                                    <input id="prix" style="width: 100%" type="text" name="prix" placeholder="Prix"
+                                           required="">
+                                    <br>
+                                    <br>
+                                    <label>Nombre de places</label>
+                                    <br>
+                                    <input id="nombreDeplaces" style="width: 100%" type="text" name="nombreDeplaces"
+                                           required="">
+                                    <br>
+                                    <br>
+                                    <label>Description</label>
+                                    <br>
+                                    <input id="description" style="width: 100%" type="text" name="description"
+                                           required="">
+                                    <br>
+                                    <br>
+
+
+                                    <button id="btn_submit" type="submit">Ajouter</button>
+
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <br>
+    <br>
+{% endblock %}

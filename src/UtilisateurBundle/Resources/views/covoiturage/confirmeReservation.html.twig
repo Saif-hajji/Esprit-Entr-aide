@@ -1,0 +1,69 @@
+<div id="zoneconfirmRes">
+    <!-- tableau covoiturage -->
+    <table class="table" style="color:#DCDCDC !important;">
+
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th data-breakpoints="xs">Email</th>
+            <th>Niveau</th>
+            <th data-breakpoints="xs sm md" data-title="DOB">Numéro de télephone</th>
+            <th>Adresse</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for reservation in reservations %}
+            {% if reservation.jetonR==1 %}
+                {% for user in listeR %}
+                    {% if user.id==reservation.idUser %}
+                        <tr data-expanded="true">
+                            <
+                            <td>{{ user.nom }}</td>
+                            <td>{{ user.prenom }}</td>
+                            <td>{{ user.email }}</td>
+                            <td> {{ user.niveau }}</td>
+                            <td>{{ user.numTel }}</td>
+                            <td>{{ user.adresse }}</td>
+                            <div class="form-group has-success">
+                                <td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+                            </div>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                {% for user in listeR %}
+                    {% if user.id==reservation.idUser %}
+                        <tr data-expanded="true">
+                            <td>{{ user.nom }}</td>
+                            <td>{{ user.prenom }}</td>
+                            <td>{{ user.email }}</td>
+                            <td> {{ user.niveau }}</td>
+                            <td>{{ user.numTel }}</td>
+                            <td>{{ user.adresse }}</td>
+
+                            <div class="form-group">
+                                <div class="col-lg-offset-3 col-lg-6">
+                                    <td>
+                                        <button class="btn btn-success" type="button"
+                                                onclick="confirmer({{ user.id }},{{ idCov }})"><label class="consult">Confirmer</label>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger" type="button"
+                                                onclick="supprimerRes({{ idCov }},{{ reservation.idReservation }})">
+                                            <label>Supprimer</label></button>
+                                    </td>
+                                </div>
+                            </div>
+                        </tr>
+
+                    {% endif %}
+                {% endfor %}
+
+            {% endif %}
+        {% endfor %}
+
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,71 @@
+{% extends '::layout_globale.html.twig' %}
+
+{% block B %}
+    <div>
+
+
+        <h3 class="heading-agileinfo">Ajouter Annonce </h3>
+
+        <form method="post" action="{{ url('ajouter') }}" enctype="multipart/form-data">
+
+            <label>Départ</label>
+            <br>
+            <input style="width: 100%" type="text" name="depart" required="">
+            <br>
+
+            <br>
+            <label>Arrivée</label>
+            <br>
+            <input style="width: 100%" type="text" name="arrivee" required="">
+            <br>
+
+            <br>
+            <label>Date de départ</label>
+            <br>
+            <input style="width: 100%" type="date" name="dateDepart" required="">
+            <br>
+
+            <br>
+
+            <label>Heure de départ</label>
+            <br>
+            <input style="width: 100%" type="text" name="heureDepart" required="">
+            <br>
+            <br>
+            <label>Prix</label>
+            <br>
+            <input id="prix" style="width: 100%" type="text" name="prix" placeholder="Prix" required="">
+            <br>
+            <br>
+            <label>Nombre de places</label>
+            <br>
+            <input id="nombreDeplaces" style="width: 100%" type="text" name="nombreDeplaces" required="">
+            <br>
+            <br>
+            <label>Description</label>
+            <br>
+            <input id="description" style="width: 100%" type="text" name="description" required="">
+            <br>
+            <br>
+
+
+            <button id="btn_submit" type="submit">Ajouter</button>
+
+        </form>
+
+
+        <script>
+            function checkPrix() {
+                var value = document.getElementById('prix').value;
+                if (!isNaN(value)) {
+                    alert("entrer un nombre dans prix");
+                }
+            }
+
+            function submit() {
+
+            }
+        </script>
+    </div>
+
+{% endblock %}

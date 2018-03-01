@@ -1,0 +1,65 @@
+{% extends '::layout_globale.html.twig' %}
+{% block modifierannonce %}
+
+    <h3 class="heading-agileinfo">Modifier l'annonce </h3>
+
+
+    <fieldset style="border: double">
+
+        <form id="editForm" method="POST" action="{{ path('covoiturage_edit',{'id': covoiturage.idCov}) }}">
+
+            <label>Départ</label>
+            <br>
+            <input style="width: 25%" type="text" name="depart" required="" value="{{ covoiturage.depart }}">
+            <br>
+
+            <br>
+            <label>Arrivée</label>
+            <br>
+            <input style="width: 25%" type="text" name="arrivee" required="" value="{{ covoiturage.arrivee }}">
+            <br>
+
+            <br>
+            <label>Date de départ</label>
+            <br>
+            <input style="width: 25%" type="date" name="dateDepart" required="" value="{{ covoiturage.dateDepart }}">
+            <br>
+
+            <br>
+
+            <label>Heure de départ</label>
+            <br>
+            <input style="width: 25%" type="text" name="heureDepart" required="" value="{{ covoiturage.heureDepart }}">
+            <br>
+            <br>
+            <label>Prix</label>
+            <br>
+            <input id="prix" style="width: 25%" type="text" name="prix" required="" value="{{ covoiturage.prix }}">
+            <br>
+            <br>
+            <label>Nombre de places</label>
+            <br>
+            <input id="nombreDeplaces" style="width: 25%" type="text" name="nombreDeplaces" required=""
+                   value="{{ covoiturage.nombreDeplaces }}">
+            <br>
+            <br>
+            <label>Description</label>
+            <br>
+            <input type="text" id="description" style="width: 25%" name="description" required=""
+                   value="{{ covoiturage.description }}">
+            <br>
+            <br>
+            <button type="submit" class="btn btn-success "><span class="glyphicon glyphicon-ok"></span> Enregistrer
+            </button>
+            <a href="{{ path('covoiturage_showmine') }}">
+                <button type="button" class="btn btn-danger "><span class="glyphicon glyphicon-remove"></span> Annuler
+                </button>
+            </a>
+
+
+        </form>
+    </fieldset>
+
+
+
+{% endblock %}

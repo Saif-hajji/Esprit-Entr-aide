@@ -1,0 +1,212 @@
+{% extends '::layout_globale.html.twig' %}
+
+
+{% block afficheannonce %}
+    <br>
+
+
+    <img src="{{ asset('Template/images/cov1.png') }}" height="200" width="400">
+
+    <section class="portfolio-agileinfo" id="portfolio">
+        <div class="container" id="chercherCle">
+            <h1 class="text-center slideanim slide">Les offres de Covoiturage</h1>
+
+
+            <div>
+                <ul class=" gallery-wrap list">
+                    {% for covoiturage in covoiturages | reverse %}
+                        <li class="gallery-item slideanim slide">
+                            <div class="gallery-link">
+                                <h4 class="gallery-name">{% if covoiturage.dateDepart %}{{ covoiturage.dateDepart|date('Y-m-d') }}{% endif %}</h4>
+                                <div class="gallery-department">{{ covoiturage.prix }} Dt</div>
+                                <img class="headshot img-responsive"
+                                     src="{{ asset('bundles/visiteur/images/cov2.jpg') }}" width="200" height="300"
+                                     alt="w3layouts">
+                                <div class="hidden person-info-wrap">
+                                    <ul class="person-info">
+                                        Description :
+                                        <li class="filter-full_name"><p>{{ covoiturage.description }} </p></li>
+                                        Lieu De départ :
+                                        <li class="filter-full_name"><p> {{ covoiturage.depart }}</p></li>
+                                        Lieu D'arrivée :
+                                        <li class="filter-full_name"><p>{{ covoiturage.arrivee }} </p></li>
+                                        Nombre de Places :
+                                        <li class="filter-full_name"><p> {{ covoiturage.nombreDePlaces }}</p></li>
+                                        Heure de Départ :
+                                        <li class="filter-full_name"><p>{{ covoiturage.heureDepart }} h</p></li>
+                                        <div>
+                                            {% if covoiturage.idUser == app.user.id %}
+                                                <td></td>
+
+                                            {% else %}
+                                                {% if covoiturage.nombreDePlaces >= covoiturage.nombreDeReservations %}
+                                                    <td>
+                                                        <button class="btn btn-success" type="button"
+                                                                onclick="reserver({{ covoiturage.idCov }},{{ covoiturage.idUser }})">
+                                                            <label>reserver</label></button>
+                                                    </td>
+                                                {% else %}
+                                                    <td>
+                                                        <button disabled class="btn btn-warning" type="button"
+                                                                onclick="reserver({{ covoiturage.idCov }},{{ covoiturage.idUser }})">
+                                                            <label>reserver</label></button>
+                                                    </td>
+                                                {% endif %}
+                                            {% endif %}
+                                        </div>
+                                    </ul>
+
+                                </div>
+
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="lightbox-item hidden"></div>
+        <div class="lightbox-bg hidden"></div>
+        <div class="lightbox-img hidden"></div>
+
+
+        <div class="navigation" style="text-align: center">
+            {{ knp_pagination_render(covoiturages) }}
+        </div>
+
+    </section>
+
+    <script>
+        function chercherCle() {
+            var x = document.getElementById("cle").value;
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "search?cle=" + x, true);
+            xhr.send(null);
+            xhr.onreadystatechange = function result() {
+                if ((xhr.status == 200) && (xhr.readyState == 4))
+                    document.getElementById("chercherCle").innerHTML = xhr.responseText;
+            }
+        }
+
+        function reserver(id, idU) {
+            var x = id;
+            var y = idU;
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "reserver?idCov=" + x + "&idReservation=" + y, true);
+            xhr.send(null);
+            xhr.onreadystatechange = function result() {
+                if ((xhr.status == 200) && (xhr.readyState == 4))
+                    document.getElementById("chercherCle").innerHTML = xhr.responseText;
+            }
+        }
+    </script>
+
+
+{% endblock %}
+{% block ajoutannonce %}
+
+    <div class="container">
+        <!-- Trigger the modal with a button -->
+        <br>
+        <br>
+        <br>
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Ajouter une
+            annonce
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <center><h4 class="modal-title" style="color: #d32f2f">Ajouter une annonce</h4></center>
+                    </div>
+                    <div class="modal-body">
+                        <div class="panel-body">
+                            <div class="form">
+                                <form class="cmxform form-horizontal " id="signupForm" method="POST"
+                                      action="{{ path('covoiturage_new') }}">
+
+                                    <label>Départ</label>
+                                    <br>
+                                    <input style="width: 100%" type="text" name="depart" required="">
+                                    <br>
+
+                                    <br>
+                                    <label>Arrivée</label>
+                                    <br>
+                                    <input style="width: 100%" type="text" name="arrivee" required="">
+                                    <br>
+
+                                    <br>
+                                    <label>Date de départ</label>
+                                    <br>
+                                    <input style="width: 100%" type="date" name="dateDepart" required="">
+                                    <br>
+
+                                    <br>
+
+                                    <label>Heure de départ</label>
+                                    <br>
+                                    <input style="width: 100%" type="text" name="heureDepart" required="">
+                                    <br>
+                                    <br>
+                                    <label>Prix</label>
+                                    <br>
+                                    <input id="prix" style="width: 100%" type="text" name="prix" placeholder="Prix"
+                                           required="">
+                                    <br>
+                                    <br>
+                                    <label>Nombre de places</label>
+                                    <br>
+                                    <input id="nombreDeplaces" style="width: 100%" type="text" name="nombreDeplaces"
+                                           required="">
+                                    <br>
+                                    <br>
+                                    <label>Description</label>
+                                    <br>
+                                    <input id="description" style="width: 100%" type="text" name="description"
+                                           required="">
+                                    <br>
+                                    <br>
+
+
+                                    <button type="submit" class="btn btn-success btn-lg pull-left"><span
+                                                class="glyphicon glyphicon-plus"></span> Ajouter
+                                    </button>
+                                    <button type="submit" class="btn btn-danger btn-lg pull-right" data-dismiss="modal">
+                                        <span class="glyphicon glyphicon-remove"></span> Annuler
+                                    </button>
+
+
+                                </form>
+
+                                <script>
+                                    function checkPrix() {
+                                        var value = document.getElementById('prix').value;
+                                        if (!isNaN(value)) {
+                                            alert("entrer un nombre dans prix");
+                                        }
+                                    }
+
+                                    function submit() {
+
+                                    }
+                                </script>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <br>
+    <br>
+
+{% endblock %}
