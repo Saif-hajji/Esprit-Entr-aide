@@ -1,49 +1,49 @@
-{% extends '::layout_globale.html.twig' %}
+{% extends '::test.html.twig' %}
 {% block modifierannonce %}
 
-    <h3 class="heading-agileinfo">Modifier l'annonce </h3>
+    <h1 class="heading-agileinfo">Modifier l'annonce </h1>
 
 
-    <fieldset style="border: double">
 
-        <form id="editForm" method="POST" action="{{ path('covoiturage_edit',{'id': covoiturage.idCov}) }}">
 
-            <label>Départ</label>
+        <form id="editForm" method="POST"  style="text-align: center" action="{{ path('covoiturage_edit',{'id': covoiturage.idCov}) }}">
+
+            <h4 >Départ</h4>
             <br>
             <input style="width: 25%" type="text" name="depart" required="" value="{{ covoiturage.depart }}">
             <br>
 
             <br>
-            <label>Arrivée</label>
+            <h4>Arrivée</h4>
             <br>
             <input style="width: 25%" type="text" name="arrivee" required="" value="{{ covoiturage.arrivee }}">
             <br>
 
             <br>
-            <label>Date de départ</label>
+            <h4>Date de départ</h4>
             <br>
             <input style="width: 25%" type="date" name="dateDepart" required="" value="{{ covoiturage.dateDepart }}">
             <br>
 
             <br>
 
-            <label>Heure de départ</label>
+            <h4>Heure de départ</h4>
             <br>
             <input style="width: 25%" type="text" name="heureDepart" required="" value="{{ covoiturage.heureDepart }}">
             <br>
             <br>
-            <label>Prix</label>
+            <h4>Prix</h4>
             <br>
             <input id="prix" style="width: 25%" type="text" name="prix" required="" value="{{ covoiturage.prix }}">
             <br>
             <br>
-            <label>Nombre de places</label>
+            <h4>Nombre de places</h4>
             <br>
             <input id="nombreDeplaces" style="width: 25%" type="text" name="nombreDeplaces" required=""
                    value="{{ covoiturage.nombreDeplaces }}">
             <br>
             <br>
-            <label>Description</label>
+            <h4>Description</h4>
             <br>
             <input type="text" id="description" style="width: 25%" name="description" required=""
                    value="{{ covoiturage.description }}">
@@ -58,8 +58,6 @@
 
 
         </form>
-    </fieldset>
-
 
 
 {% endblock %}

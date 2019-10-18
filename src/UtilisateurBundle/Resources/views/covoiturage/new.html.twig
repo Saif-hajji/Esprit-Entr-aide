@@ -49,18 +49,32 @@
             <br>
 
 
-            <button id="btn_submit" type="submit">Ajouter</button>
+            <button id="btn_submit" type="submit" >Ajouter</button>
 
         </form>
 
 
         <script>
+
+            document.getElementById('btn_submit').addEventListener('click' , function() {
+                checkNombreDePlaces();
+                console.log('Helo');
+            },false);
             function checkPrix() {
                 var value = document.getElementById('prix').value;
                 if (!isNaN(value)) {
                     alert("entrer un nombre dans prix");
                 }
             }
+
+            function checkNombreDePlaces() {
+                var value = document.getElementById('nombreDeplaces').value;
+                if (!isNaN(value) &&( value > 4) &&( value == 0)) {
+                    alert("entrer un nombre dans 1..4 ");
+                }
+            }
+
+
 
             function submit() {
 

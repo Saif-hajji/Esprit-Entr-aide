@@ -43,15 +43,16 @@ class CovoiturageController extends Controller
      */
     public function newAction(Request $request)
     {
-        if ($this->container->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+        if( $this->container->get( 'security.authorization_checker' )->isGranted( 'IS_AUTHENTICATED_FULLY' ) )
+        {
             $user = $this->container->get('security.token_storage')->getToken()->getUser();
             $idUser = $user->getId();
         }
-        $covoiturage = new Covoiturage();
+        $covoiturage= new Covoiturage();
 
-        $em = $this->getDoctrine()->getManager();
-        $em1 = $this->getDoctrine()->getManager();
-        if ($request->isMethod('POST')) {
+        $em=$this->getDoctrine()->getManager();
+        $em1=$this->getDoctrine()->getManager();
+        if($request->isMethod('POST')){
             $covoiturage->setId($idUser);
             $covoiturage->setDepart($request->get('depart'));
             $covoiturage->setArrivee($request->get('arrivee'));
@@ -68,29 +69,12 @@ class CovoiturageController extends Controller
             $em->flush();
             $this->sendMail();
 
-            return $this->redirectToRoute('covoiturage_show');
+           return $this->redirectToRoute('covoiturage_show');
 
         }
         $this->sendMail();
-        return $this->render("UtilisateurBundle:covoiturage:show.html.twig", array());
+        return $this->render("UtilisateurBundle:covoiturage:show.html.twig",array());
 
-    }
-
-    public function sendMail()
-    {
-
-        $message = Swift_Message::newInstance()
-            ->setSubject('Accusé de réception')
-            ->setFrom('saif.symfony3@gmail.com')
-            ->setTo('saifeddine.hajji@esprit.tn')
-            ->setBody(
-
-                'success');
-
-
-        $this->get('mailer')->send($message);
-
-        return $this->render('UtilisateurBundle:mail:email.html.twig');
     }
 
     /**
@@ -100,14 +84,15 @@ class CovoiturageController extends Controller
     public function showAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $covoiturages = $em->getRepository("UtilisateurBundle:Covoiturage")->findAll();
+        $covoiturages=$em->getRepository("UtilisateurBundle:Covoiturage")->findAll();
 
         /**
-         * @var $paginator \Knp\Component\Pager\Paginator
-         */
+        * @var $paginator \Knp\Component\Pager\Paginator
+        */
 
 
-        $paginator = $this->get('knp_paginator');
+
+        $paginator  = $this->get('knp_paginator');
         $result = $paginator->paginate(
             $covoiturages, /* query NOT result */
             $request->query->getInt('page', 1)/*page number*/,
@@ -124,17 +109,17 @@ class CovoiturageController extends Controller
     public function showmineAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $covoiturages = $em->getRepository("UtilisateurBundle:Covoiturage")->findByid_user($this->getUser());
+        $covoiturages=$em->getRepository("UtilisateurBundle:Covoiturage")->findByid_user($this->getUser());
 
         /**
          * @var $paginator \Knp\Component\Pager\Paginator
          */
 
-        $paginator = $this->get('knp_paginator');
+        $paginator  = $this->get('knp_paginator');
         $result = $paginator->paginate(
             $covoiturages, /* query NOT result */
             $request->query->getInt('page', 1)/*page number*/,
-            $request->query->getInt('limit', 2)
+            $request->query->getInt('limit', 1)
 
         );
 
@@ -148,19 +133,20 @@ class CovoiturageController extends Controller
     public function deleteAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $covoiturage = $em->getRepository("UtilisateurBundle:Covoiturage")->find($id);
+        $covoiturage=$em->getRepository("UtilisateurBundle:Covoiturage")->find($id);
         $em->remove($covoiturage);
         $em->flush();
         return $this->redirectToRoute("covoiturage_showmine");
     }
 
-    public function editAction($id, Request $request)
+    public function editAction($id , Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em=$this->getDoctrine()->getManager();
 
-        $covoiturage = $em->getRepository("UtilisateurBundle:Covoiturage")->find($id);
+        $covoiturage=$em->getRepository("UtilisateurBundle:Covoiturage")->find($id);
 
-        if ($request->isMethod('POST')) {
+        if ($request->isMethod('POST'))
+        {
 
             $covoiturage->setDepart($request->get('depart'));
             $covoiturage->setArrivee($request->get('arrivee'));
@@ -175,7 +161,7 @@ class CovoiturageController extends Controller
         }
 
 
-        return $this->render('UtilisateurBundle:covoiturage:edit.html.twig', array("covoiturage" => $covoiturage));
+        return $this->render('UtilisateurBundle:covoiturage:edit.html.twig',array("covoiturage"=>$covoiturage));
 
 
     }
@@ -183,32 +169,34 @@ class CovoiturageController extends Controller
     public function searchAction(Request $request)
     {
 
-        $em = $this->getDoctrine()->getManager();
-        $em1 = $this->getDoctrine()->getManager();
-        if ($request->isMethod('GET')) {
+        $em=$this->getDoctrine()->getManager();
+        $em1=$this->getDoctrine()->getManager();
+        if($request->isMethod('GET')) {
 
             $cle = $request->get('cle');
             if ($cle == "") {
-                $covoiturages = $em->getRepository("UtilisateurBundle:Covoiturage")->findby(array(), array('idCov' => 'DESC'));
+                $covoiturages=$em->getRepository("UtilisateurBundle:Covoiturage")->findby(array(),array('idCov'=>'DESC'));
             } else {
 
                 $covoiturages = $em1->getRepository("UtilisateurBundle:Covoiturage")->createQueryBuilder('covoiturages')
+
                     ->Where('covoiturages.Depart LIKE :depart')
                     ->orWhere('covoiturages.arrivee LIKE :arrivee')
                     ->orWhere('covoiturages.dateDepart LIKE :dateDepart')
                     ->orWhere('covoiturages.heureDepart LIKE :heureDepart')
                     ->orWhere('covoiturages.prix LIKE :prix')
                     ->orWhere('covoiturages.nombreDePlaces LIKE :nbp')
-                    ->setParameter('depart', '%' . $cle . '%')
-                    ->setParameter('arrivee', '%' . $cle . '%')
-                    ->setParameter('dateDepart', '%' . $cle . '%')
-                    ->setParameter('heureDepart', '%' . $cle . '%')
-                    ->setParameter('prix', '%' . $cle . '%')
-                    ->setParameter('nbp', '%' . $cle . '%')
+
+                    ->setParameter('depart', '%'.$cle.'%')
+                    ->setParameter('arrivee', '%'.$cle.'%')
+                    ->setParameter('dateDepart', '%'.$cle.'%')
+                    ->setParameter('heureDepart', '%'.$cle.'%')
+                    ->setParameter('prix', '%'.$cle.'%')
+                    ->setParameter('nbp', '%'.$cle.'%')
                     ->getQuery()
                     ->getResult();
             }
-            $paginator = $this->get('knp_paginator');
+            $paginator  = $this->get('knp_paginator');
             $result = $paginator->paginate(
                 $covoiturages, /* query NOT result */
                 $request->query->getInt('page', 1)/*page number*/,
@@ -218,7 +206,8 @@ class CovoiturageController extends Controller
         }
 
 
-        return $this->render('UtilisateurBundle:covoiturage:search.html.twig', array("covoiturages" => $result)
+
+        return $this->render('UtilisateurBundle:covoiturage:search.html.twig',array("covoiturages"=>$result)
 
         );
     }
@@ -265,16 +254,16 @@ class CovoiturageController extends Controller
             $this->sendMail();
             $covoiturages = $em->getRepository("UtilisateurBundle:Covoiturage")->findby(array(), array('idCov' => 'DESC'));
 
-            // $paginator = $this->get('knp_paginator');
-            //  $pagination = $paginator->paginate(
+        // $paginator = $this->get('knp_paginator');
+          //  $pagination = $paginator->paginate(
             //    $covoiturages,
-            //  $request->query->getInt('page', 1)/*page number*/,
-            //5/*limit per page*/);
+              //  $request->query->getInt('page', 1)/*page number*/,
+                //5/*limit per page*/);
 
 
         }
 
-        return $this->render('UtilisateurBundle:covoiturage:search.html.twig', array("covoiturages" => $covoiturages)
+        return $this->render('UtilisateurBundle:covoiturage:search.html.twig',array("covoiturages"=>$covoiturages)
         );
     }
 
@@ -318,7 +307,7 @@ class CovoiturageController extends Controller
         if ($request->isMethod('GET')) {
 
             $idCov = $request->get('idCov');
-            $idRes = $request->get('idRes');
+            $idRes=$request->get('idRes');
             $covoiturageC = $em->getRepository("UtilisateurBundle:Covoiturage")->find($idCov);
 
             $covoiturageC->setNombreDeReservations($covoiturageC->getNombreDeReservations() - 1);
@@ -326,19 +315,37 @@ class CovoiturageController extends Controller
 
 
             $em1 = $this->getDoctrine()->getManager();
-            $reservations = $em1->getRepository("UtilisateurBundle:ReservationCovoiturage")->find($idRes);
+            $reservations=$em1->getRepository("UtilisateurBundle:ReservationCovoiturage")->find($idRes);
 
-            $em1->remove($reservations);
-            $em1->flush();
+                    $em1->remove($reservations);
+                    $em1->flush();
 
             return $this->redirectToRoute("covoiturage_showmine");
         }
 
 
+
     }
 
-    public function confirmReservationAction(Request $request)
+    public function sendMail()
     {
+
+            $message = Swift_Message::newInstance()
+                ->setSubject('Accusé de réception')
+                ->setFrom('saif.symfony3@gmail.com')
+                ->setTo('saifeddine.hajji@esprit.tn')
+                ->setBody(
+
+                   'success' );
+
+
+            $this->get('mailer')->send($message);
+
+        return $this->render('UtilisateurBundle:mail:email.html.twig');
+    }
+
+
+    public function confirmReservationAction(Request $request){
 
         $em = $this->getDoctrine()->getManager();
         $em1 = $this->getDoctrine()->getManager();
@@ -362,8 +369,8 @@ class CovoiturageController extends Controller
 
 
             }
-            $covoiturageC = $em3->getRepository("UtilisateurBundle:Covoiturage")->find(['id' => $idCov]);
-            $covoiturageC->setNombreDePlaces($covoiturageC->getNombreDePlaces() - 1);
+            $covoiturageC = $em3->getRepository("UtilisateurBundle:Covoiturage")->find($idCov);
+            $covoiturageC->setNombreDePlaces($covoiturageC->getNombreDePlaces()-1);
 
             $em3->flush();
 
@@ -374,6 +381,9 @@ class CovoiturageController extends Controller
     }
 
 
+
+
+
     /**
      * @Route(/logout)
      * @throws \RuntimeException
@@ -382,6 +392,8 @@ class CovoiturageController extends Controller
     {
         throw new RuntimeException();
     }
+
+
 
 
 }
